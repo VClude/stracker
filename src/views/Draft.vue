@@ -247,21 +247,21 @@ export default {
       this.params = JSON.parse(json)
       let collection = this.params.skills.concat(this.params.ultimates)
 
-      let responsePool = await axios.get("https://tarrasque.azurewebsites.net/" + "/api/draft/pool")
+      let responsePool = await axios.get(process.env.VUE_APP_BASE_API + "api/draft/pool")
       let pool = responsePool.data
         .map(_ => _.abilities)
         .flat()
         .filter(_ => collection.includes(_.id))
         .map(_ => { return { id: _.id, hasUpgrade: _.hasUpgrade, isGranted: _.isGranted } })
 
-      let responseAbilities = await axios.get("https://tarrasque.azurewebsites.net/" + "/api/abilities")
+      let responseAbilities = await axios.get(process.env.VUE_APP_BASE_API + "api/abilities")
       let abilities = responseAbilities.data
         .filter(_ => collection.includes(_.id))
         .map(_ => { return { id: _.id, priority: _.total.priority } })
 
       this.abilities = abilities.map(x => Object.assign(x, pool.find(y => y.id == x.id)))
 
-      let responseHero = await axios.get("https://tarrasque.azurewebsites.net/" + "api/hero/" + this.params.hero)
+      let responseHero = await axios.get(process.env.VUE_APP_BASE_API + "api/hero/" + this.params.hero)
       this.hero = responseHero.data
 
       this.combos = this.hero.combos.filter(_ => collection.includes(_.id))
@@ -296,7 +296,7 @@ export default {
 
       let collection = this.params.skills.concat(this.params.ultimates)
       
-      axios.get("https://tarrasque.azurewebsites.net/" + "api/ability/" + ability.id).then((res) => {
+      axios.get(process.env.VUE_APP_BASE_API + "api/ability/" + ability.id).then((res) => {
         item.combos = res.data.abilities.filter(_ => collection.includes(_.id))
         self.mergeAbilityData(item.combos)
         item.loading = false

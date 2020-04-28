@@ -2,7 +2,7 @@
   <div>
     <section class="wrapper style2">
       <div class="inner">
-        <h1>Sorry, your account is Not Recorded having a Match</h1>
+        <h1>Sorry, your account is Not Available / Not Recorded having a Match</h1>
       </div>
     </section>
 

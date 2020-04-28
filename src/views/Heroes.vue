@@ -79,7 +79,7 @@ export default {
       let self = this
       self.loading = true
 
-      let response = await axios.get("http://localhost/APImock/heroes.json")
+      let response = await axios.get(process.env.VUE_APP_MOCK_API + "heroes.json")
       self.heroes = response.data
       self.heroes.sort((a, b) => b.total.winRate - a.total.winRate)
       self.topHeroes = self.heroes.slice(0, 9)

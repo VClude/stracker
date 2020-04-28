@@ -135,7 +135,7 @@ export default {
       let self = this
       self.loading = true
 
-      var response = await axios.get("http://localhost/APImock/ability.json")
+      var response = await axios.get(process.env.VUE_APP_MOCK_API + "ability.json")
       self.abilities = response.data
 
       self.abilities.sort((a,b) => b.total.winRate - a.total.winRate)

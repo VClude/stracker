@@ -16,7 +16,7 @@
 		<!-- Menu -->
     <nav id="menu">      
       <ul class="links">
-        <li><router-link to="/guide">Home</router-link></li>
+        <li><router-link to="/">Home</router-link></li>
         <li><router-link to="/pool">Pool</router-link> </li>
         <li><router-link to="/heroes">Heroes</router-link> </li>
         <li><router-link to="/abilities">Abilities</router-link> </li>

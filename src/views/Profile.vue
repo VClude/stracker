@@ -253,7 +253,7 @@ export default {
        },
     async loadData(id) {
       this.loading = true
-      	axios.get("https://tarrasque.azurewebsites.net/" + "api/player/details/" + id)
+      	axios.get(process.env.VUE_APP_BASE_API + "api/player/details/" + id)
         .then(response => {
           this.details = response.data
           this.summarizeHistory = this.details.history.length > 10
@@ -262,6 +262,9 @@ export default {
         })
         .catch(error => {
               if(error.response.status == 404){
+              this.$router.push({name: '404'})
+            }
+            if(error.response.status == 500){
               this.$router.push({name: '404'})
             }
         });

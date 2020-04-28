@@ -138,7 +138,7 @@ export default {
   },
   methods: {
     async preFetch() {
-      let response = await axios.get("https://tarrasque.azurewebsites.net/" + "api/draft/pool")
+      let response = await axios.get(process.env.VUE_APP_BASE_API + "api/draft/pool")
       for (const hero of response.data) {
         this.preloadImage(hero.imageBanner)
         this.preloadImage(hero.imageIcon)

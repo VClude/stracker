@@ -113,7 +113,7 @@ export default {
   methods: {
     async  loadData() {
       this.loading = true
-      let response = await axios.get("https://tarrasque.azurewebsites.net/" + "api/draft/pool")
+      let response = await axios.get(process.env.VUE_APP_BASE_API + "api/draft/pool")
       this.pool = response.data
       this.loading = false
     },

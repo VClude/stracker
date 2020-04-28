@@ -196,7 +196,7 @@ export default {
       let self = this
       self.loading = true
 
-      var response = await axios.get("https://tarrasque.azurewebsites.net/" + "api/hero/" + this.$route.params.id)
+      var response = await axios.get(process.env.VUE_APP_BASE_API + "api/hero/" + this.$route.params.id)
       self.hero = response.data
 
       self.loading = false

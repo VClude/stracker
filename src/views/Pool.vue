@@ -67,7 +67,7 @@ export default {
   methods: {
     async  loadData() {
       this.loading = true
-      var response = await axios.get("http://localhost/APImock/pool.json")
+      var response = await axios.get(process.env.VUE_APP_MOCK_API + "pool.json")
       this.pool = response.data
       this.loading = false
     }

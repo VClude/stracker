@@ -15,9 +15,9 @@
             </div>
             <div class="w3-third">
               <h2>{{ability.name}}</h2>
-              <img class="w3-round-large ability-icon" :src="ability.image"/>
+              <img class="w3-round-large ability-icon" :src="replaceImg(ability.image)"/>
               <br />
-              <span>Insert Tooltip Here</span>
+              <span>History (Win Rate)</span>
               <br />
               <div class="sparkline" ref="chart"></div>    
             </div>
@@ -28,7 +28,8 @@
           <br />
           <h3>Hero Combos</h3>
           <p>
-            Work in Progress.
+            A lot of people when talking about Ability Draft will focus on the ability combos as if they apply to all heroes equal.
+            This is far from true and therefore we believe it is important to highlight heroes pair well with this ability. 
           </p>
           <div class="w3-center">
             <button @click="sortType = 1" class="button small" v-bind:class="{alt: sortType != 1}">Sort by Picks</button>
@@ -44,14 +45,14 @@
                     <span class="w3-badge" style="background-color: #25a2c3">{{item.picks}}</span>
                   </div>
                   <div class="w3-col" style="width:64px;">
-                    <img class="hero-icon-s" :src="item.image"  />
+                    <img class="hero-icon-s" :src="replaceImg(item.image)"  />
                   </div>
                   <div class="w3-rest w3-padding-small">
                     <b style="line-height: 28px; color:#25a2c3;">
                       <router-link class="truncate" :to="'/hero/' + item.id">{{item.name}}</router-link>
                     </b>
                     <div class="w3-border w3-center  w3-round">
-                      <div :style="'background-color:#f6755e;color:white !important;height:28px;width:'+ Math.round(item.winRate * 100)+'%'">
+                      <div :style="'background-color:#f6755e;height:28px;width:'+ Math.round(item.winRate * 100)+'%'">
                         <b>{{Math.round(item.winRate * 100)}}%</b>
                       </div>
                     </div>
@@ -63,7 +64,8 @@
            <br />
           <h3>Ability Combos</h3>
           <p>
-            Work in Progress.
+            A great ability combo on the right hero can dominate a game but no combo is unbeatable even if some look like they are.
+            Just remember to balance against your play style, strategy, and/or item builds.
           </p>
           <div class="w3-center">
             <button @click="sortType = 1" class="button small" v-bind:class="{alt: sortType != 1}">Sort by Picks</button>
@@ -79,14 +81,14 @@
                     <span class="w3-badge" style="background-color: #25a2c3">{{item.picks}}</span>
                   </div>
                   <div class="w3-col" style="width:64px;">
-                    <img class="ability-icon-s" :src="item.image"  />
+                    <img class="ability-icon-s" :src="replaceImg(item.image)"  />
                   </div>
                   <div class="w3-rest w3-padding-small">
                     <b style="line-height: 28px; color:#25a2c3;">
                       <router-link class="truncate" :to="'/ability/' + item.id">{{item.name}}</router-link>
                     </b>
                     <div class="w3-border w3-center  w3-round">
-                      <div :style="'background-color:#f6755e;color:white !important;height:28px;width:'+ Math.round(item.winRate * 100)+'%'">
+                      <div :style="'background-color:#f6755e;height:28px;width:'+ Math.round(item.winRate * 100)+'%'">
                         <b>{{Math.round(item.winRate * 100)}}%</b>
                       </div>
                     </div>
@@ -155,16 +157,15 @@ export default {
     }
   },
   methods: {
+      replaceImg(str){
+       return str.replace("https://hgv-hyperstone.azurewebsites.net/", "http://localhost/APImock/") 
+      },
     async  loadData() {
       let self = this
       self.loading = true
-      var response = await axios.get("http://localhost/APImock/ability.json")
-      //nyocokin skill id sama row di file json
-    for (const abl of response.data) {
-        if(abl.id == this.$route.params.id){
-          self.ability = abl
-        }
-      }
+
+      var response = await axios.get(process.env.VUE_APP_BASE_API + "api/ability/" + this.$route.params.id)
+      self.ability = response.data
 
       self.loading = false
 
@@ -176,7 +177,12 @@ export default {
       chart = am4core.create(this.$refs.chart, am4charts.XYChart)
 
       let data = []
-
+      for (const item of this.ability.history) {
+        data.push({
+          "date": new Date(item.day),
+          "value": item.winRate * 100
+        })
+      }
 
       chart.data = data 
 

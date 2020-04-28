@@ -96,14 +96,14 @@ export default {
   methods: {
     async loadRegionData() {
       this.loading = true
-      var response = await axios.get("https://tarrasque.azurewebsites.net/" + "api/regions")
+      var response = await axios.get(process.env.VUE_APP_BASE_API + "api/regions")
       this.regions = response.data
       
       this.loading = false
     },
     async loadLatterData() {
       this.loading = true
-      var response = await axios.get("https://tarrasque.azurewebsites.net/" + "api/leaderboard/region/" + this.region)
+      var response = await axios.get(process.env.VUE_APP_BASE_API + "api/leaderboard/region/" + this.region)
       this.latter = response.data
 
       this.loading = false
